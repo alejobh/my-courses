@@ -1,14 +1,15 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
-import App from 'components/App';
+import Routes from 'components/Routes';
 import reportWebVitals from './reportWebVitals';
+
 import 'config/api';
-import './index.scss';
+import 'scss/application.scss';
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <Routes />
   </StrictMode>,
   document.getElementById('root'),
 );
