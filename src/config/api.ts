@@ -1,4 +1,8 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-axios.defaults.headers.common['Content-Type'] = 'application/json';
+export const api = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+  headers: {
+    'Content-type': 'application/json',
+  },
+});

@@ -1,0 +1,106 @@
+@import 'scss/variables/colors';
+
+.page-title {
+  color: white;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.courses-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 24px;
+  height: 100%;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.course-container {
+  align-items: center;
+  background-color: $mine-shaft;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 220px;
+  justify-content: flex-start;
+  padding: 15px 10px;
+  position: relative;
+  width: 160px;
+
+  &:hover {
+    background-color: rgba($alto, 0.4);
+  }
+
+  .picture {
+    pointer-events: none;
+    border-radius: 8px;
+    height: 130px;
+    margin-bottom: 15px;
+    object-fit: contain;
+    width: 130px;
+  }
+
+  .info-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .instructor {
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+    }
+  
+    .title {
+      color: white;
+      font-size: 14px;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+  }
+
+  .favorite {
+    align-items: center;
+    border: none;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    font-size: 16px;
+    height: 30px;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 30px;
+  }
+}
+
+.loader {
+  color: white;
+  font-size: 16px;
+}
+
+.error {
+  color: $amaranth;
+  font-size: 16px;
+}

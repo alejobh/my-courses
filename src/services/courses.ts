@@ -1,16 +1,25 @@
-import axios from 'axios';
+import { api } from 'config/api';
+import { Course } from 'types/courses';
 
-interface GetAll {
+interface GetCourses {
   email: string;
   limit?: number;
   offset?: number;
 }
 
-export const getAll = ({ email, limit, offset }: GetAll) =>
-  axios.get('jsonapi/v1/courses', {
-    params: {
-      email,
-      ...(limit && { 'page[limit]': limit }),
-      ...(offset && { 'page[offset]': offset }),
-    },
-  });
+export default {
+  getCourses:
+    ({ email, limit, offset }: GetCourses) =>
+    () =>
+      api
+        .get<Course[]>('jsonapi/v1/courses', {
+          params: {
+            email,
+            ...(limit && { 'page[limit]': limit }),
+            ...(offset && { 'page[offset]': offset }),
+          },
+        })
+        .catch((error) => {
+          throw error;
+        }),
+};
