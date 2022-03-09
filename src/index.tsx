@@ -1,14 +1,22 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import Routes from 'components/Routes';
 import reportWebVitals from './reportWebVitals';
 
+import 'config/api';
+import 'scss/application.scss';
+
+const queryClient = new QueryClient();
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <Routes />
+    </QueryClientProvider>
+  </StrictMode>,
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
