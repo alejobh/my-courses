@@ -4,14 +4,15 @@ import {
   Route,
 } from "react-router-dom";
 
-import { PATHS } from "./constants";
+import Home from 'screens/Home';
+import Courses from 'screens/Courses';
 
 export default function Routes() {
   return (
     <Router>
       <RouterRoutes> 
-        <Route path={PATHS.courses.path} element={PATHS.courses.element} />
-        <Route path={PATHS.home.path} element={PATHS.home.element} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/" element={<Home />} />
       </RouterRoutes>
     </Router>
   )
