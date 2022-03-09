@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 
 function App() {
   return (
-    <div className="App">
+    <div className={styles['App']}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles["App-logo"]} alt="logo" />
         <p>
