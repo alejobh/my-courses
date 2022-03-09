@@ -4,15 +4,11 @@
       "ecmaFeatures": {
           "jsx": true
       },
-      "project": ["tsconfig.json"],
-      "sourceType": "module",
-      "tsconfigRootDir": "./",
       "ecmaVersion": 12
   },
   "extends": [
-    "airbnb-typescript",
-    "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
     "plugin:jest/recommended",
     "plugin:testing-library/react"
   ],
@@ -32,6 +28,7 @@
   "rules": {
     "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off"
   }
 }
