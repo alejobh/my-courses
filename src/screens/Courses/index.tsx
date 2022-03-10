@@ -3,23 +3,19 @@ import cn from 'classnames';
 
 import { ReactComponent as Heart } from 'assets/heart.svg';
 import styles from './styles.module.scss';
+import ToggleSwitch from 'components/ToggleSwitch';
 
 export default function Courses() {
   const {
     query: { isLoading, isError, error },
     setShowFavorites,
     data,
-    showFavorites,
   } = useGetCourses();
+
   return (
     <div className={styles.container}>
       <h1 className={styles['page-title']}>Courses</h1>
-      <button
-        className={styles.filter}
-        type="button"
-        onClick={() => setShowFavorites((prev) => !prev)}>
-        {showFavorites ? 'Show All' : 'Show Favs'}
-      </button>
+      <ToggleSwitch onChange={() => setShowFavorites((prev) => !prev)} />
       <div className={styles['courses-container']}>
         {isLoading && <p className={styles.loader}>Loading...</p>}
         {data.map((course) => (
