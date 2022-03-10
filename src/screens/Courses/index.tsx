@@ -1,4 +1,7 @@
 import { useGetCourses } from 'hooks/react-query/useCourses';
+import cn from 'classnames';
+
+import { ReactComponent as Heart } from 'assets/heart.svg';
 import styles from './styles.module.scss';
 
 export default function Courses() {
@@ -31,7 +34,12 @@ export default function Courses() {
               <p className={styles.title}>{course.title}</p>
             </div>
             <button className={styles.favorite} type="button">
-              {course.favorite ? '💔' : '❤️'}
+              <Heart
+                className={cn(
+                  styles['favorite-icon'],
+                  course.favorite && styles['is-favorite'],
+                )}
+              />
             </button>
           </div>
         ))}
