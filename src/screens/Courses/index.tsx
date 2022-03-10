@@ -1,44 +1,40 @@
-import { useGetCourses } from 'hooks/react-query/useCourses';
-import cn from 'classnames';
+import { useGetCourses, useMutateFavorite } from 'hooks/react-query/useCourses';
 
-import { ReactComponent as Heart } from 'assets/heart.svg';
 import styles from './styles.module.scss';
 import ToggleSwitch from 'components/ToggleSwitch';
+
+import { EMAIL } from './constants';
+import Course from './components/Course';
+import { Course as ICourse } from 'types/courses';
+import Skeleton from './components/Skeleton';
 
 export default function Courses() {
   const {
     query: { isLoading, isError, error },
     setShowFavorites,
     data,
-  } = useGetCourses();
+    offset,
+  } = useGetCourses(EMAIL);
+
+  const { mutate: toggleFavorite } = useMutateFavorite(EMAIL, offset);
+
+  const handleToggleFavorite = (course: ICourse) => {
+    toggleFavorite({ course });
+  };
 
   return (
     <div className={styles.container}>
       <h1 className={styles['page-title']}>Courses</h1>
       <ToggleSwitch onChange={() => setShowFavorites((prev) => !prev)} />
       <div className={styles['courses-container']}>
-        {isLoading && <p className={styles.loader}>Loading...</p>}
         {data.map((course) => (
-          <div className={styles['course-container']} key={course.id}>
-            <img
-              alt={`Instructor: ${course.instructor_name}`}
-              src={course.instructor_image_url}
-              className={styles.picture}
-            />
-            <div className={styles['info-container']}>
-              <h4 className={styles.instructor}>{course.instructor_name}</h4>
-              <p className={styles.title}>{course.title}</p>
-            </div>
-            <button className={styles.favorite} type="button">
-              <Heart
-                className={cn(
-                  styles['favorite-icon'],
-                  course.favorite && styles['is-favorite'],
-                )}
-              />
-            </button>
-          </div>
+          <Course
+            key={course.id}
+            course={course}
+            onToggleFavorite={handleToggleFavorite}
+          />
         ))}
+        {isLoading && <Skeleton />}
         {isError && (
           <p className={styles.error}>Error: {JSON.stringify(error)}</p>
         )}

@@ -1,10 +1,6 @@
 @import 'scss/variables/colors';
 @import 'scss/mixins';
 
-%favorite-fill {
-  color: $amaranth;
-  stroke: $amaranth;
-}
 .page-title {
   color: white;
   font-size: 30px;
@@ -38,98 +34,6 @@
     align-items: center;
     flex-direction: column;
   }
-}
-
-.course-container {
-  align-items: center;
-  background-color: $mine-shaft;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 15px 10px;
-  position: relative;
-  width: 210px;
-
-  @include max-screen(sm) {
-    width: 240px;
-  }
-
-  &:hover {
-    background-color: rgba($alto, 0.4);
-  }
-
-  .picture {
-    pointer-events: none;
-    border-radius: 8px;
-    height: 130px;
-    margin-bottom: 15px;
-    object-fit: contain;
-    width: 130px;
-  }
-
-  .info-container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .instructor {
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-    }
-  
-    .title {
-      color: white;
-      font-size: 14px;
-      font-style: italic;
-      padding-bottom: 10px;
-      text-align: center;
-    }
-  }
-
-  .favorite {
-    align-items: center;
-    border: none;
-    background-color: black;
-    border-radius: 50%;
-    display: flex;
-    font-size: 16px;
-    height: 30px;
-    justify-content: center;
-    cursor: pointer;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 30px;
-
-    .favorite-icon {
-      color: transparent;
-      height: 16px;
-      width: 16px;
-      stroke: white;
-      stroke-width: 2px;
-
-      &.is-favorite {
-        @extend %favorite-fill;
-        &:hover {
-          color: transparent;
-          stroke: white;
-        }
-      }
-
-      &:hover {
-        @extend %favorite-fill;
-      }
-    }
-  }
-}
-
-.loader {
-  color: white;
-  font-size: 16px;
 }
 
 .error {
