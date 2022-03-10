@@ -7,10 +7,11 @@ import { EMAIL } from './constants';
 import Course from './components/Course';
 import { Course as ICourse } from 'types/courses';
 import Skeleton from './components/Skeleton';
+import { getSkeletonQuantity } from './utils';
 
 export default function Courses() {
   const {
-    query: { isLoading, isError, error },
+    query: { isLoading, isFetching, isError, error },
     setShowFavorites,
     data,
     offset,
@@ -34,11 +35,14 @@ export default function Courses() {
             onToggleFavorite={handleToggleFavorite}
           />
         ))}
-        {isLoading && <Skeleton />}
-        {isError && (
-          <p className={styles.error}>Error: {JSON.stringify(error)}</p>
-        )}
+        {(isLoading || isFetching) &&
+          getSkeletonQuantity(!isLoading && isFetching).map((item) => (
+            <Skeleton key={`skeleton-${item}`} />
+          ))}
       </div>
+      {isError && (
+        <p className={styles.error}>Error: {JSON.stringify(error)}</p>
+      )}
     </div>
   );
 }

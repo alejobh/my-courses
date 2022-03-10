@@ -4,27 +4,18 @@
 $border-radius: 8px;
 $background: $alto;
 
+%shared {
+  background-color: $background;
+  border-radius: $border-radius;
+  margin-bottom: 10px;
+}
+
 @keyframes skeleton-loading {
   0% {
     background-color: rgba($background, 0.1);
   }
   100% {
     background-color: rgba($background, 0.3);
-  }
-}
-
-.container {
-  align-items: stretch;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20px;
-  height: 100%;
-  width: 100%;
-  
-  @include max-screen(sm) {
-    align-items: center;
-    flex-direction: column;
   }
 }
 
@@ -47,26 +38,20 @@ $background: $alto;
   }
 
   .image {
-    background-color: $background;
-    border-radius: $border-radius;
-    margin-bottom: 10px;
+    @extend %shared;
     height: 130px;
     width: 130px;
   }
   
   .instructor {
-    background-color: $background;
-    border-radius: $border-radius;
+    @extend %shared;
     height: 16px;
-    margin-bottom: 10px;
     width: 100%;
   }
   
   .title {
-    background-color: $background;
-    border-radius: $border-radius;
+    @extend %shared;
     height: 12px;
-    margin-bottom: 10px;
     width: 80%;
 
     &:last-child {
