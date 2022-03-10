@@ -1,0 +1,25 @@
+@import 'variables/breakpoints';
+
+$breakpoints: (
+  xs: $breakpoint-xs,
+  sm: $breakpoint-sm,
+  md: $breakpoint-md,
+  lg: $breakpoint-lg,
+  xl: $breakpoint-xl,
+);
+
+@mixin max-screen ($breakpoint) {
+  $size: if(map-has-key($breakpoints, $breakpoint), map-get($breakpoints, $breakpoint), $breakpoint);
+
+  @media only screen and (max-width: $size) {
+    @content;
+  }
+}
+
+@mixin min-screen ($breakpoint) {
+  $size: if(map-has-key($breakpoints, $breakpoint), map-get($breakpoints, $breakpoint), $breakpoint);
+
+  @media only screen and (min-width: $size) {
+    @content;
+  }
+}
