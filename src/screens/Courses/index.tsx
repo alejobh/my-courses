@@ -8,30 +8,50 @@ import Course from './components/Course';
 import { Course as ICourse } from 'types/courses';
 import Skeleton from './components/Skeleton';
 import { getSkeletonQuantity } from './utils';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useScreenSize } from 'hooks/useScreenSize';
 
 export default function Courses() {
+  const screenSizes = useScreenSize();
+
   const {
-    query: { isLoading, isFetching, isError, error },
+    query: {
+      isLoading,
+      isError,
+      error,
+      hasNextPage,
+      isFetching,
+      isFetchingNextPage,
+      fetchNextPage,
+    },
     setShowFavorites,
     data,
-    offset,
-  } = useGetCourses(EMAIL);
+    showFavorites,
+  } = useGetCourses(EMAIL, screenSizes);
 
-  const { mutate: toggleFavorite } = useMutateFavorite(EMAIL, offset);
+  const { mutate: toggleFavorite, isLoading: isLoadingFav } = useMutateFavorite(
+    EMAIL,
+    screenSizes,
+  );
 
   const handleToggleFavorite = (course: ICourse) => {
     toggleFavorite({ course });
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="scrollableDiv">
       <h1 className={styles['page-title']}>Courses</h1>
       <ToggleSwitch
         onChange={() => setShowFavorites((prev) => !prev)}
         leftOptionText="All"
         rightOptionText="Favorites"
       />
-      <div className={styles['courses-container']}>
+      <InfiniteScroll
+        dataLength={data.length}
+        hasMore={hasNextPage || isFetching}
+        next={() => fetchNextPage()}
+        className={styles['courses-container']}
+        loader={<Skeleton />}>
         {data.map((course) => (
           <Course
             key={course.id}
@@ -39,11 +59,18 @@ export default function Courses() {
             onToggleFavorite={handleToggleFavorite}
           />
         ))}
-        {(isLoading || isFetching) &&
-          getSkeletonQuantity(!isLoading && isFetching).map((item) => (
-            <Skeleton key={`skeleton-${item}`} />
-          ))}
-      </div>
+        {(isLoading || isFetchingNextPage) &&
+          getSkeletonQuantity(
+            !isLoading && isFetchingNextPage && !isLoadingFav,
+          ).map((item) => <Skeleton key={`skeleton-${item}`} />)}
+      </InfiniteScroll>
+      {!data.length && !isLoading && !isFetchingNextPage && (
+        <h4 className={styles['info-text']}>
+          {showFavorites
+            ? "You have no favorite courses yet, let's fav some :)"
+            : 'There are no courses to show :('}
+        </h4>
+      )}
       {isError && (
         <p className={styles.error}>Error: {JSON.stringify(error)}</p>
       )}

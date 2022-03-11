@@ -1,26 +1,39 @@
 import { AxiosResponse } from 'axios';
 import { QUERIES } from 'constants/queries';
 import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from 'react-query';
 import coursesServices from 'services/courses';
+import { ScreenSizesState } from 'types/common';
 import { Course } from 'types/courses';
+import { getLimit } from './utils';
 
 const { getCourses, setFavorite, removeFavorite } = coursesServices;
-const LIMIT = 10;
-export const useGetCourses = (email: string) => {
-  const [offset, setOffset] = useState(1);
+export const useGetCourses = (email: string, screenSizes: ScreenSizesState) => {
   const [showFavorites, setShowFavorites] = useState(false);
-
-  const query = useQuery(
-    [QUERIES.courses, { email, limit: LIMIT, offset }],
-    getCourses({ email, limit: LIMIT, offset }),
+  const limit = getLimit(screenSizes);
+  const query = useInfiniteQuery(
+    [QUERIES.courses, { email, limit }],
+    ({ pageParam = 1 }) => getCourses({ email, limit, offset: pageParam })(),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage?.data.length !== 0 && allPages.length * limit + limit,
+      refetchOnWindowFocus: false,
+    },
   );
 
   let data: Course[] = [];
-  if (query.data?.data && !query.isError) {
+  if (!!query.data?.pages && !query.isError) {
+    const mergedPages = query.data.pages
+      .map((page) => page.data)
+      .reduce((acc, page) => acc.concat(page), []);
     data = showFavorites
-      ? query.data.data.filter((course) => course.favorite)
-      : query.data.data;
+      ? mergedPages.filter((course) => course.favorite)
+      : mergedPages;
   }
 
   return {
@@ -28,16 +41,18 @@ export const useGetCourses = (email: string) => {
     setShowFavorites,
     data,
     showFavorites,
-    setOffset,
-    offset,
   };
 };
 
-type CoursesSnapshot = AxiosResponse<Course[]> | undefined;
+type CoursesSnapshot = InfiniteData<AxiosResponse<Course[]>> | undefined;
 
-export const useMutateFavorite = (email: string, offset: number) => {
+export const useMutateFavorite = (
+  email: string,
+  screenSizes: ScreenSizesState,
+) => {
+  const limit = getLimit(screenSizes);
   const queryClient = useQueryClient();
-  const query = [QUERIES.courses, { email, limit: LIMIT, offset }];
+  const query = [QUERIES.courses, { email, limit }];
   const mutation = useMutation(
     ({
       course,
@@ -59,14 +74,19 @@ export const useMutateFavorite = (email: string, offset: number) => {
         const previousCourses: CoursesSnapshot =
           queryClient.getQueryData<CoursesSnapshot>(query) || undefined;
 
-        // Find the index of the course we're mutating
-        const index = previousCourses?.data.findIndex(
-          (course) => course.id === payload.course.id,
-        );
+        const empty = { pageIndex: -1, index: -1 };
+        const { pageIndex, index } =
+          previousCourses?.pages?.reduce((acum, page, pageIdx) => {
+            const idx = page.data.findIndex(
+              (course) => course.id === payload.course.id,
+            );
+            return idx !== -1 ? { pageIndex: pageIdx, index: idx } : acum;
+          }, empty) || empty;
 
+        console.log(pageIndex, index);
         // Update the course in the snapshot
-        if (index && previousCourses) {
-          previousCourses.data[index] = {
+        if (pageIndex !== -1 && index !== -1 && previousCourses?.pages) {
+          previousCourses.pages[pageIndex].data[index] = {
             ...payload.course,
             favorite: !payload.course.favorite,
           };
