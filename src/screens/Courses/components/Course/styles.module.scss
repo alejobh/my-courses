@@ -6,6 +6,23 @@
   stroke: $amaranth;
 }
 
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  
+  30% {
+    transform: scale(1.2);
+  }
+  
+  60% {
+    transform: scale(1);
+  }
+}
+
+%hover-heart-pulse { animation: pulse 0.6s 0.3s infinite forwards; }
+
 .container {
   align-items: center;
   background-color: $mine-shaft;
@@ -70,6 +87,19 @@
     top: 5px;
     width: 30px;
 
+
+    &:hover {
+
+      & .favorite-icon:not(.is-favorite) {
+        @extend %hover-heart-pulse;
+      }
+
+      &:not(:focus-within) .favorite-icon.is-favorite {
+        color: transparent;
+        stroke: white;
+      }
+    }
+
     .favorite-icon {
       color: transparent;
       height: 16px;
@@ -78,14 +108,6 @@
       stroke-width: 2px;
 
       &.is-favorite {
-        @extend %favorite-fill;
-        &:hover {
-          color: transparent;
-          stroke: white;
-        }
-      }
-
-      &:hover {
         @extend %favorite-fill;
       }
     }
