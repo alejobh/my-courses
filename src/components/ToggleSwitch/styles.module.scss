@@ -40,11 +40,11 @@ $slider-half-width: $slider-width / 2;
 }
 
 .toggle-format {
-  cursor: pointer;
   align-items: center;
   border: 1px solid rgba(white, 0.2);
   border-radius: 8px;
   color: white;
+  cursor: pointer;
   display: flex;
   height: $slider-height;
   justify-content: space-between;
