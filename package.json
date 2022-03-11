@@ -5,7 +5,6 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
-    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.39",
@@ -19,13 +18,14 @@
     "react-query": "^3.34.16",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "svg-jest": "^1.0.1",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test -- --env=jsdom --coverage --passWithNoTests --watchAll=false --config=jest.config.js",
+    "test": "react-scripts test --coverage --env=jsdom --passWithNoTests --watchAll=false -- --config=jest.config.js",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext js,ts,tsx",
     "lint-fix": "eslint src --quiet --fix --ext js,ts,tsx"
@@ -45,6 +45,8 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@testing-library/dom": "^8.11.3",
+    "@testing-library/user-event": "^13.5.0",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "babel-jest": "^27.5.1",
