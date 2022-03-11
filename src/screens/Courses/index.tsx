@@ -18,7 +18,6 @@ export default function Courses() {
     query: {
       isLoading,
       isError,
-      error,
       hasNextPage,
       isFetching,
       isFetchingNextPage,
@@ -39,7 +38,7 @@ export default function Courses() {
   };
 
   return (
-    <div className={styles.container} id="scrollableDiv">
+    <div className={styles.container}>
       <h1 className={styles['page-title']}>Courses</h1>
       <ToggleSwitch
         onChange={() => setShowFavorites((prev) => !prev)}
@@ -61,19 +60,17 @@ export default function Courses() {
         ))}
         {(isLoading || isFetchingNextPage) &&
           getSkeletonQuantity(
-            !isLoading && isFetchingNextPage && !isLoadingFav,
+            !isLoading && !isLoadingFav && isFetchingNextPage,
           ).map((item) => <Skeleton key={`skeleton-${item}`} />)}
       </InfiniteScroll>
-      {!data.length && !isLoading && !isFetchingNextPage && (
+      {!data.length && !isFetching && !isLoading && !isFetchingNextPage && (
         <h4 className={styles['info-text']}>
           {showFavorites
             ? "You have no favorite courses yet, let's fav some :)"
             : 'There are no courses to show :('}
         </h4>
       )}
-      {isError && (
-        <p className={styles.error}>Error: {JSON.stringify(error)}</p>
-      )}
+      {isError && <p className={styles.error}>An error has occurred.</p>}
     </div>
   );
 }

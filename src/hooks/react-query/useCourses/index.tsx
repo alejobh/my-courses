@@ -21,7 +21,9 @@ export const useGetCourses = (email: string, screenSizes: ScreenSizesState) => {
     ({ pageParam = 1 }) => getCourses({ email, limit, offset: pageParam })(),
     {
       getNextPageParam: (lastPage, allPages) =>
-        lastPage?.data.length !== 0 && allPages.length * limit + limit,
+        lastPage?.data.length !== 0
+          ? allPages.length * limit + limit
+          : undefined,
       refetchOnWindowFocus: false,
     },
   );
@@ -74,6 +76,7 @@ export const useMutateFavorite = (
         const previousCourses: CoursesSnapshot =
           queryClient.getQueryData<CoursesSnapshot>(query) || undefined;
 
+        // Obtain pageIndex and element index to update in the snapshot
         const empty = { pageIndex: -1, index: -1 };
         const { pageIndex, index } =
           previousCourses?.pages?.reduce((acum, page, pageIdx) => {
@@ -83,7 +86,6 @@ export const useMutateFavorite = (
             return idx !== -1 ? { pageIndex: pageIdx, index: idx } : acum;
           }, empty) || empty;
 
-        console.log(pageIndex, index);
         // Update the course in the snapshot
         if (pageIndex !== -1 && index !== -1 && previousCourses?.pages) {
           previousCourses.pages[pageIndex].data[index] = {
