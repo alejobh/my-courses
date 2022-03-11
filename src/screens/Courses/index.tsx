@@ -26,7 +26,11 @@ export default function Courses() {
   return (
     <div className={styles.container}>
       <h1 className={styles['page-title']}>Courses</h1>
-      <ToggleSwitch onChange={() => setShowFavorites((prev) => !prev)} />
+      <ToggleSwitch
+        onChange={() => setShowFavorites((prev) => !prev)}
+        leftOptionText="All"
+        rightOptionText="Favorites"
+      />
       <div className={styles['courses-container']}>
         {data.map((course) => (
           <Course
