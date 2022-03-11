@@ -23,6 +23,11 @@
 
   &:hover {
     background-color: rgba($alto, 0.4);
+
+    & .picture {
+      transform: scale(1.05);
+      transition: transform 0.4s;
+    }
   }
 
   .picture {
@@ -41,7 +46,7 @@
     margin-bottom: 10px;
     text-align: center;
   }
-  
+
   .title {
     color: white;
     font-size: 14px;
