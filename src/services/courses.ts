@@ -7,6 +7,11 @@ interface GetCourses {
   offset?: number;
 }
 
+interface CourseAction {
+  email: string;
+  courseId: number;
+}
+
 export default {
   getCourses:
     ({ email, limit, offset }: GetCourses) =>
@@ -22,4 +27,24 @@ export default {
         .catch((error) => {
           throw error;
         }),
+  setFavorite: ({ email, courseId }: CourseAction) =>
+    api
+      .post<{ course_id: number; id: number }>(`jsonapi/v1/favorite`, {
+        email,
+        course_id: courseId,
+      })
+      .catch((error) => {
+        throw error;
+      }),
+  removeFavorite: ({ email, courseId }: CourseAction) =>
+    api
+      .delete<null>(`jsonapi/v1/favorite`, {
+        data: {
+          email,
+          course_id: courseId,
+        },
+      })
+      .catch((error) => {
+        throw error;
+      }),
 };

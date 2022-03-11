@@ -1,0 +1,61 @@
+@import 'scss/variables/colors';
+@import 'scss/mixins';
+
+$border-radius: 8px;
+$background: $alto;
+
+%shared {
+  background-color: $background;
+  border-radius: $border-radius;
+  margin-bottom: 10px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: rgba($background, 0.1);
+  }
+  100% {
+    background-color: rgba($background, 0.3);
+  }
+}
+
+.item-container {
+  align-items: center;
+  background-color: rgba($mine-shaft, 0.4);
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 15px 10px;
+  width: 210px;
+
+  & > * {
+    animation: skeleton-loading 1s linear infinite alternate;
+  }
+
+  @include max-screen(sm) {
+    width: 240px;
+  }
+
+  .image {
+    @extend %shared;
+    height: 130px;
+    width: 130px;
+  }
+  
+  .instructor {
+    @extend %shared;
+    height: 16px;
+    width: 100%;
+  }
+  
+  .title {
+    @extend %shared;
+    height: 12px;
+    width: 80%;
+
+    &:last-child {
+      width: 60%;
+    }
+  }
+}
