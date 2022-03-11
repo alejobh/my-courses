@@ -1,2 +1,3 @@
 export const getSkeletonQuantity = (isFetching: boolean) =>
-  Array.from(Array(isFetching ? 1 : 8).keys());
+  // This 0 should be 1 for infinite scroll query
+  Array.from(Array(isFetching ? 0 : 8).keys());
