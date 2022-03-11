@@ -1,6 +1,8 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { persistQueryClient } from 'react-query/persistQueryClient-experimental';
+import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental';
 
 import Routes from 'components/Routes';
 import reportWebVitals from './reportWebVitals';
@@ -8,7 +10,22 @@ import reportWebVitals from './reportWebVitals';
 import 'config/api';
 import 'scss/application.scss';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60, // 1 hour
+    },
+  },
+});
+
+const localStoragePersistor = createWebStoragePersistor({
+  storage: window.localStorage,
+});
+
+persistQueryClient({
+  queryClient,
+  persistor: localStoragePersistor,
+});
 
 ReactDOM.render(
   <StrictMode>
