@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 
 import 'config/api';
 import 'scss/application.scss';
+import { BrowserRouter } from 'react-router-dom';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,7 +31,9 @@ persistQueryClient({
 ReactDOM.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Routes />
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,
   document.getElementById('root'),
